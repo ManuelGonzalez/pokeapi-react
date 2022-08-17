@@ -1,0 +1,41 @@
+{
+  "name": "pokeapi",
+  "version": "1.0.0",
+  "description": "Pokeapi",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack serve --open",
+    "build": "webpack --mode production"
+  },
+  "keywords": [
+    "react",
+    "javascript"
+  ],
+  "author": "Manuel Gonzalez",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.18.6",
+    "@babel/preset-env": "^7.18.6",
+    "@babel/preset-react": "^7.18.6",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.95",
+    "@mui/material": "^5.9.0",
+    "@mui/styled-engine-sc": "^5.8.0",
+    "@types/react": "^18.0.17",
+    "axios": "^0.27.2",
+    "babel-loader": "^8.2.5",
+    "html-loader": "^3.1.2",
+    "html-webpack-plugin": "^5.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.2",
+    "redux": "^4.2.0",
+    "styled-components": "^5.3.5",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.3"
+  }
+}
