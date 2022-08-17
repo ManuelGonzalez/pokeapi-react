@@ -11,20 +11,36 @@ import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {Button, Skeleton, Stack} from "@mui/material";
+import {Avatar, Box, Button, List, ListItem, ListItemText, Modal, Skeleton, Stack} from "@mui/material";
 import {useEffect, useState} from "react";
 import {getPokemons} from "../api";
 
 const App = () => {
 
     const [pokemon, setPokemon] = useState([]);
+    const [activePokemon, setActivePokemon] = useState(null);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [allLoaded, setAllLoaded] = useState(false);
+    const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
         fetchValues();
     }, []);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        pt: 2,
+        px: 4,
+        pb: 3,
+    };
 
     const fetchValues = async () => {
 
@@ -47,10 +63,47 @@ const App = () => {
     };
 
     const getImageUrl = (value) => {
-
         return value.other.dream_world.front_default;
-
     }
+
+    const getTypes = (values) => {
+        debugger
+        return (
+            <Stack direction="row" spacing={2}>
+                {values.map((value) => {
+                    return (
+                        <Typography key={value.slot}>
+                            {value.type.name}
+                        </Typography>
+                    )
+                })}
+            </Stack>
+        )
+    }
+
+    const getAbilities = (values) => {
+        debugger
+        return (
+            <Stack direction="row" spacing={2}>
+                {values.map((value) => {
+                    return (
+                        <Typography key={value.slot}>
+                            {value.ability.name}
+                        </Typography>
+                    )
+                })}
+            </Stack>
+        )
+    }
+
+    const handleOpen = (pokemon) => {
+        setActivePokemon(pokemon)
+        setOpen(true)
+    };
+    const handleClose = () => {
+        setActivePokemon(null)
+        setOpen(false)
+    };
 
     const loadingComp = () => {
         return (
@@ -96,7 +149,7 @@ const App = () => {
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
-                                        <Button size="small">View</Button>
+                                        <Button onClick={() => handleOpen(pokemon)} size="small">View Detail</Button>
                                     </CardActions>
                                 </Card>
                             </Grid>
@@ -109,13 +162,60 @@ const App = () => {
                                     loadingPosition="start"
                                     variant="outlined"
                                 >
-                                    Load more pokemons
+                                    {loading ? "Loading..." : "Load more pokemons"}
                                 </LoadingButton>
                             )}
                         </Stack>
                     </Grid>
                 </Container>
             </main>
+            {activePokemon && (
+                <Modal
+                    hideBackdrop
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="child-modal-title"
+                    aria-describedby="child-modal-description"
+                >
+                    <Box sx={{ ...style }}>
+                        <Stack direction="row" spacing={6}>
+                            <div>
+                                <Card>
+                                    <CardMedia
+                                        component="img"
+                                        image={getImageUrl(activePokemon.sprites)}
+                                        alt={activePokemon.name}
+                                    />
+                                    <CardContent sx={{ flexGrow: 1 }}>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                            <div>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    <Stack direction="row" spacing={2}>
+                                        <Avatar alt={activePokemon.name} src={activePokemon.sprites.front_default} size="sm" />
+                                        {activePokemon.name}
+                                    </Stack>
+                                </Typography>
+                                <Stack spacing={2}>
+                                    <Typography>
+                                        Weight: {activePokemon.weight}
+                                    </Typography>
+                                    <Typography>
+                                        Types: {getTypes(activePokemon.types)}
+                                    </Typography>
+                                    <Typography>
+                                        Abilities: {getAbilities(activePokemon.abilities)}
+                                    </Typography>
+                                </Stack>
+                            </div>
+                            <div>
+                                <Button onClick={handleClose}>Close</Button>
+                            </div>
+                        </Stack>
+                    </Box>
+                </Modal>
+            )}
         </>
     );
 }
