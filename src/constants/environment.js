@@ -1,6 +1,4 @@
-const ENDPOINT =
-  process.env.ENDPOINT ||
-  "https://pokeapi-manuel.herokuapp.com/";
+const ENDPOINT = "https://pokeapi-manuel.herokuapp.com/pokemon";
 
 export {
   ENDPOINT

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {ENDPOINT} from "../constants/environment";
 
 export const getPokemons = (limit, offset) => {
 
@@ -6,7 +7,7 @@ export const getPokemons = (limit, offset) => {
 
   const axiosInstance = axios.create({
     params,
-    baseURL: "https://pokeapi-manuel.herokuapp.com/pokemon",
+    baseURL: ENDPOINT,
     headers: {
       "Content-type": "application/json",
       "Access-Control-Allow-Origin": "*",
